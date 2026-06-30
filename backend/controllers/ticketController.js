@@ -98,6 +98,12 @@ const assignTicket = async (req, res) => {
       return res.status(404).json({ message: 'Ticket not found' });
     }
 
+    if (ticket.status === 'closed') {
+      return res.status(400).json({ 
+        message: 'Cannot assign a closed ticket' 
+      });
+    }
+
     ticket.assignedTo = req.body.assignedTo;
     ticket.status = 'assigned';
     ticket.updates.push({
